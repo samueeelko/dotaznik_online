@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dotazník – Jazyky ocenenia v práci</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; line-height: 1.5; max-width: 900px; margin: 0 auto; padding: 16px; }
+h1, h2 { margin-top: 12px; }
+.question { margin-bottom: 12px; }
+.score-select { width: 80px; }
+.result-box { margin-top: 18px; padding: 12px; border: 1px solid #ccc; }
+button { padding: 8px 14px; cursor: pointer; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>Dotazník – Môj jazyk ocenenia v práci</h1>
+<p>Označ pri každej položke skóre 1–5 (1 = vôbec nesúhlasím, 5 = úplne súhlasím). Po odoslaní sa automaticky zobrazí tvoj výsledok.</p>
+
+<form id="quizForm"></form>
+
+<div class="result-box hidden" id="resultsBox">
+<h2>Výsledok</h2>
+<p><strong>Primárny jazyk:</strong> <span id="primary"></span></p>
+<p><strong>Sekundárny jazyk:</strong> <span id="secondary"></span></p>
+<p><strong>Najmenej motivujúci jazyk:</strong> <span id="lowest"></span></p>
+
+<h3>Skóre podľa jazykov</h3>
+<ul id="scoreList"></ul>
+</div>
+
+<script>
+const questions = [
+["A","Najviac ma povzbudí, keď niekto jasne pomenuje, čo som urobil dobre."],
+["A","Potrebujem počuť uznanie nahlas, nie iba „cítiť rešpekt“."],
+["A","Motivačne na mňa pôsobí, keď mi vedúci vyjadrí dôveru slovami."],
+["A","Aj krátke „dobrá práca“ mi dokáže zlepšiť deň."],
+["A","Ak po náročnej úlohe nedostanem spätnú väzbu, moja motivácia klesá."],
+["B","Veľmi si cením, keď si na mňa kolega alebo vedúci nájde čas na rozhovor."],
+["B","Cítim sa motivovaný, keď sa ma niekto úprimne pýta na môj názor."],
+["B","Spoločné plánovanie alebo brainstorming mi dodáva energiu."],
+["B","Osobné stretnutie má pre mňa väčší význam než krátka správa či email."],
+["B","Keď mám priestor byť vypočutý, pracujem s väčším nasadením."],
+["C","Najviac si vážim, keď mi niekto pomôže v období veľkého pracovného náporu."],
+["C","Praktická pomoc je pre mňa silnejším prejavom uznania než pochvala."],
+["C","Keď kolega preberie časť zodpovednosti, cítim sa ocenený."],
+["C","Pomoc pri riešení problému vnímam ako prejav rešpektu."],
+["C","Najväčšou formou uznania je pre mňa konkrétny čin."],
+["D","Symbolické drobnosti (káva, maličký darček, poukaz) si veľmi cením."],
+["D","Keď mi niekto prinesie maličkosť ako poďakovanie, cítim uznanie."],
+["D","Prekvapenie alebo malá odmena ma motivuje pokračovať vo výkone."],
+["D","Praktické benefity alebo vecné odmeny majú u mňa veľký význam."],
+["D","Radšej dostanem maličkú pozornosť než dlhé slovné uznanie."],
+["E","Podanie ruky, potľapkanie po pleci či priateľské gesto vo mne vyvoláva pocit podpory."],
+["E","Keď niekto prejaví uznanie aj prostredníctvom fyzického kontaktu, pôsobí to na mňa povzbudivo."],
+["E","Objatie (v vhodnej situácii a so súhlasom) vnímam ako silný prejav blízkosti a rešpektu."],
+["E","Fyzické gesto spolupatričnosti mi dodáva energiu viac než formálne slová."],
+["E","Ľudský dotyk pre mňa predstavuje autentické a úprimné ocenenie."]
+];
+
+function shuffle(array){
+  for(let i=array.length-1;i>0;i--){
+    const j=Math.floor(Math.random()* (i+1));
+    [array[i],array[j]]=[array[j],array[i]];
+  }
+}
+
+shuffle(questions);
+
+const form = document.getElementById("quizForm");
+questions.forEach((q, index)=>{
+  const div=document.createElement("div");
+  div.className="question";
+  div.innerHTML = `<label>${index+1}. ${q[1]}</label><br>
+  <select class="score-select" name="q${index}" data-cat="${q[0]}" required>
+  <option value="">—</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  </select>`;
+  form.appendChild(div);
+});
+
+const submitBtn=document.createElement("button");
+submitBtn.type="button";
+submitBtn.textContent="Zobraziť výsledok";
+submitBtn.onclick=calculateResult;
+form.appendChild(submitBtn);
+
+function calculateResult(){
+  const scores={A:0,B:0,C:0,D:0,E:0};
+  const selects=document.querySelectorAll(".score-select");
+  for(const s of selects){
+    if(!s.value){ alert("Prosím, zadaj skóre ku každej položke."); return; }
+    const cat=s.dataset.cat;
+    scores[cat]+=Number(s.value);
+  }
+  const labels={
+    A:"Slovné uznanie",
+    B:"Kvalitný čas",
+    C:"Akt pomoci",
+    D:"Darčeky a pozornosti",
+    E:"Ľudský dotyk"
+  };
+
+  const entries=Object.entries(scores).map(([k,v])=>[k,v,labels[k]]);
+  entries.sort((a,b)=>b[1]-a[1]);
+
+  document.getElementById("primary").textContent = entries[0][2] + " ("+entries[0][1]+")";
+  document.getElementById("secondary").textContent = entries[1][2] + " ("+entries[1][1]+")";
+  document.getElementById("lowest").textContent = entries[4][2] + " ("+entries[4][1]+")";
+
+  const list=document.getElementById("scoreList");
+  list.innerHTML="";
+  entries.forEach(e=>{
+    const li=document.createElement("li");
+    li.textContent = e[2] + ": " + e[1];
+    list.appendChild(li);
+  });
+
+  document.getElementById("resultsBox").classList.remove("hidden");
+}
+</script>
+</body>
+</html>
