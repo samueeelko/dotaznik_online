@@ -30,3 +30,5 @@ for (let i = 1; i <= 5; i++) {
 questionDiv.appendChild(label);
 questionDiv.appendChild(document.createElement('br'));
 questionDiv.appendChild(select);
+
+questionsDiv.appendChild(questionDiv);
