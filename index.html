@@ -14,6 +14,23 @@
     <button type = "button" id = "resultButton">Zobraziť výsledok</button>
 </form>
 
-<script src="app.js"></script>
+<script src="app.js" defer></script>
+
+
+<!--template na otazku-->
+<template id="questionTemplate">
+    <div class="question">
+        <label class = "questionLabel"></label>
+        <select class = "questionChoice" required>
+            <option value = "">-</option>
+            <option value = "1">1</option>
+            <option value = "2">2</option>
+            <option value = "3">3</option>
+            <option value = "4">4</option>
+            <option value = "5">5</option>
+        </select>
+    </div>
+</template>
+
 </body>
 </html>
