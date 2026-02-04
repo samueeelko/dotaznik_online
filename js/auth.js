@@ -1,8 +1,11 @@
+console.log('auth.js loaded')
+
 let supabase
 
 function initAuth(supabaseClient){
     supabase = supabaseClient
 }
+conosle.log('auth.js exists: ', typeof initAuth )
 
 
 async function checkUser(){
