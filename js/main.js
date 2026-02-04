@@ -22,3 +22,5 @@ document.getElementById("emailInput").addEventListener('keypress', (event) => {
 //listener na odhlasneie
 
 document.getElementById("logoutBtn").addEventListener('click', logout)
+
+checkUser()
