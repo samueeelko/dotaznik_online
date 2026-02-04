@@ -32,10 +32,7 @@ const QUESTIONS = [
 ];
 
 
-const questionsDiv = document.getElementById("questions");
-questionsDiv.innerHTML = ""; // cleanup starych otazok
 
-const template = document.getElementById("questionTemplate");
 
 //shuflle na otazky
 function shuffle(array){
@@ -48,25 +45,89 @@ function shuffle(array){
         [array[currentIndex],array[randomIndex]] = [array[randomIndex],array[currentIndex]];
     }
 }
-shuffle(QUESTIONS);
-
-QUESTIONS.forEach((question, index) => {
-    const clone = template.content.cloneNode(true);
-
-    const label = clone.querySelector("label");
-    const select = clone.querySelector("select");
-
-    const questionIndex = `q${index+1}`;
-    label.innerText = question.text;
-    label.htmlFor = questionIndex;
-    select.id = questionIndex;
-    select.name = questionIndex;
-    select.dataset.cat = question.cat;
-
-    questionsDiv.appendChild(clone);
-})
 
 
+function showQuestionnaire() {
+    document.getElementById("questionnaireSection").style.display = "block";
+    document.getElementById("questionsSection").style.display = "none";
+    generateQuestions()
+}
+
+function generateQuestions(){
+
+    const questionsDiv = document.getElementById("questions");
+    questionsDiv.innerHTML = ""; // cleanup starych otazok
+
+    const template = document.getElementById("questionTemplate");
+    shuffle(QUESTIONS);
+
+    QUESTIONS.forEach((question, index) => {
+        const clone = template.content.cloneNode(true);
+
+        const label = clone.querySelector("label");
+        const select = clone.querySelector("select");
+
+        const questionIndex = `q${index + 1}`;
+        label.innerText = question.text;
+        label.htmlFor = questionIndex;
+        select.id = questionIndex;
+        select.name = questionIndex;
+        select.dataset.cat = question.cat;
+
+        questionsDiv.appendChild(clone);
+    })
+}
+
+function evaluateQuestions(){
+    const scores = {
+        A: 0,
+        B: 0,
+        C: 0,
+        D: 0,
+        E: 0
+    }
+
+    QUESTIONS.forEach((question, index) => {
+        const select = document.getElementById(`q${index + 1}`);
+        const value = parseInt(select.value)
+
+        if (!isNaN(value)) {
+            scores[select.cat] += value;
+        }
+    })
+
+    displayQuestion(scores);
+}
+
+
+
+function displayQuestion(scores) {
+    const resultBox = document.getElementById("results");
+    const sortedScores = Object.entries(scores).sort((a,b) => b[1] - a[1])
+
+    const categoryNames = {
+        A: "Slová uznania",
+        B: "Kvalitný čas",
+        C: "Činy služby",
+        D: "Dary",
+        E: "Fyzický dotyk"
+    };
+
+    let html = "<h2>Tvoje výsledky:</h2>";
+    sortedScores.forEach(([cat, score]) => {
+        html += `<p><strong>${categoryNames[cat]}:</strong> ${score} bodov</p>`;
+    });
+
+    html += `<p style="margin-top: 20px; font-weight: bold;">
+        Tvoj primárny jazyk uznania je: ${categoryNames[sorted[0][0]]}
+    </p>`;
+
+    resultBox.innerHTML = html;
+}
+
+function setupQuestionListener(){
+    document.getElementById("resultButton").addEventListener('click', evaluateQuestions);
+}
 
 
 

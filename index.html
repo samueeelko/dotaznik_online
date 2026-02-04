@@ -5,16 +5,41 @@
     <title>Dotazník - Môj jazyk ocenenia v práci</title>
 </head>
 <body>
-<h1>Dotazník – Môj jazyk ocenenia v práci</h1>
-<p>Označ pri každej položke skóre 1–5 (1 = vôbec nesúhlasím, 5 = úplne súhlasím). Po odoslaní sa automaticky zobrazí tvoj výsledok.</p>
+<div id="loginSection">
+    <h1>Dotazník – Môj jazyk ocenenia v práci</h1>
+    <p>Pre spustenie dotazníka sa prosím prihláste.</p>
+    <div id="loginForm">
+        <input
+            id = "emailInput"
+            type="email"
+            placeholder="Zadajte email"
+            required
+        >
+        <p id="inputMessage"></p>
+        <button id="loginButton">Odoslať email</button>
+    </div>
+</div>
 
-<form id="quizForm">
-    <div id = "questions"></div>
 
-    <button type = "button" id = "resultButton">Zobraziť výsledok</button>
-</form>
+<div id="questionnaireSection" style="display: none">
+    <div id = "header">
+        <h1>Dotazník – Môj jazyk ocenenia v práci</h1>
+        <button id="logoutBtn" class="logout-btn">Odhlásiť sa</button>
+    </div>
 
-<script src="app.js" defer></script>
+
+    <p>Označ pri každej položke skóre 1–5 (1 = vôbec nesúhlasím, 5 = úplne súhlasím). Po odoslaní sa automaticky zobrazí tvoj výsledok.</p>
+
+    <form id="quizForm">
+        <div id = "questions"></div>
+
+        <button type = "button" id = "resultButton">Zobraziť výsledok</button>
+    </form>
+</div>
+
+
+
+<div id = "results"></div>
 
 
 <!--template na otazku-->
@@ -31,6 +56,13 @@
         </select>
     </div>
 </template>
+
+<!--skripty-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js" defer></script>
+<script src="js/app.js" defer  ></script>
+<script src="js/main.js" defer  ></script>
+
 
 </body>
 </html>
