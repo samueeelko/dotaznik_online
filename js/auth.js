@@ -56,8 +56,8 @@ async function sendMagicLink(){
 
         try{
             const { data, error } = await client.auth.signInWithOtp({
+                email: email,
                 options: {
-                    email: email,
                     shouldCreateUser: false,
                     emailRedirectTo: window.location.href,
                 }
