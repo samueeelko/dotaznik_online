@@ -1,15 +1,15 @@
 console.log('auth.js loaded')
 
-let supabase
+let client
 
 function initAuth(supabaseClient){
-    supabase = supabaseClient
+    client = supabaseClient
 }
-conosle.log('auth.js exists: ', typeof initAuth )
+console.log('auth.js exists: ', typeof initAuth )
 
 
 async function checkUser(){
-    const { data: { user }, error } =  await supabase.auth.getUser()
+    const { data: { user }, error } =  await client.auth.getUser()
 
     if (error){
         console.error(error)
@@ -54,7 +54,7 @@ async function sendMagicLink(){
         // messageDiv.style.color = 'green'
 
         try{
-            const { data, error } = await supabase.auth.signInWithOtp({
+            const { data, error } = await client.auth.signInWithOtp({
                 options: {
                     email: email,
                     shouldCreateUser: false,
@@ -84,7 +84,7 @@ function setupAuthListener() {
     console.log(" Nastavujem auth listener...");
 
     // Počúvaj na zmeny (SIGNED_IN, SIGNED_OUT, atď.)
-    supabase.auth.onAuthStateChange((event, session) => {
+    client.auth.onAuthStateChange((event, session) => {
         console.log(" Auth event and seesion:", event, session);
 
         if (event === 'SIGNED_IN') {
