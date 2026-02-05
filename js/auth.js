@@ -37,6 +37,7 @@ function showLogin(){
 
 async function sendMagicLink(){
     const email = document.getElementById('emailInput').value
+    console.log(email)
     const messageDiv = document.getElementById('inputMessage')
 
     if (!email){
