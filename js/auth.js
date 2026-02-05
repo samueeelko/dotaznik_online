@@ -31,7 +31,7 @@ async function signInWithEmail(email) {
 
 function showLogin(){
     document.getElementById('loginSection').style.display = 'block'
-    document.getElementById('questonnaireSection').style.display = 'none'
+    document.getElementById('questionnaireSection').style.display = 'none'
 
 }
 
