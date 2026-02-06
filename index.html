@@ -1,69 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>Dotazník - Môj jazyk ocenenia v práci</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dotazník jazykov uznania</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="loginSection">
-    <h1>Dotazník – Môj jazyk ocenenia v práci</h1>
-    <p>Pre spustenie dotazníka sa prosím prihláste.</p>
-    <div id="loginForm">
-        <input
-            id = "emailInput"
-            type="email"
-            placeholder="Zadajte email"
-            required
-        >
-        <p id="inputMessage"></p>
-        <button id="loginButton">Odoslať email</button>
+<!-- ========================================
+     JEDNODUCHÁ VERZIA - Bez prihlásenia
+========================================= -->
+
+<div class="container">
+    <h1>Dotazník jazykov uznania</h1>
+
+    <p class="instructions">
+        Ohodnoťte každé tvrdenie podľa toho, ako veľmi na vás pôsobí (1 = vôbec nie, 5 = absolútne áno).
+    </p>
+
+    <!-- Tu sa vygenerujú otázky -->
+    <div id="questions"></div>
+
+    <button id="evaluateBtn" class="evaluate-btn">Zobraziť výsledok</button>
+</div>
+
+<!-- ========================================
+     POPUP MODAL S VÝSLEDKAMI
+========================================= -->
+<div id="resultsModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="resultsContainer"></div>
     </div>
 </div>
 
-
-<div id="questionnaireSection" style="display: none">
-    <div id = "header">
-        <h1>Dotazník – Môj jazyk ocenenia v práci</h1>
-        <button id="logoutBtn" class="logout-btn">Odhlásiť sa</button>
-    </div>
-
-
-    <p>Označ pri každej položke skóre 1–5 (1 = vôbec nesúhlasím, 5 = úplne súhlasím). Po odoslaní sa automaticky zobrazí tvoj výsledok.</p>
-
-    <form id="quizForm">
-        <div id = "questions"></div>
-
-        <button type = "button" id = "resultButton">Zobraziť výsledok</button>
-    </form>
-</div>
-
-
-
-<div id = "results"></div>
-
-
-<!--template na otazku-->
+<!-- ========================================
+     TEMPLATE PRE OTÁZKY
+========================================= -->
 <template id="questionTemplate">
     <div class="question">
-        <label class = "questionLabel"></label>
-        <select class = "questionChoice" required>
-            <option value = "">-</option>
-            <option value = "1">1</option>
-            <option value = "2">2</option>
-            <option value = "3">3</option>
-            <option value = "4">4</option>
-            <option value = "5">5</option>
+        <label></label>
+        <select>
+            <option value="">Vyberte...</option>
+            <option value="1">1 - Vôbec nie</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 - Absolútne áno</option>
         </select>
     </div>
 </template>
 
-<!--skripty-->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="js/auth.js" defer></script>
-<script src="js/app.js" defer  ></script>
-<script src="js/main.js" defer  ></script>
-
-
+<!-- ========================================
+     SKRIPTY
+========================================= -->
+<script src="js/questions.js" defer></script>
+<script src="js/main_simple.js" defer></script>
 </body>
 </html>
