@@ -78,7 +78,7 @@ function generateQuestions(){
     })
 }
 
-function evaluateQuestions(){
+function evaluateAnswers(){
     const scores = {
         A: 0,
         B: 0,
