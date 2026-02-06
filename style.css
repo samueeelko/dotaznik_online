@@ -1,0 +1,280 @@
+/* ========================================
+   ZÁKLADNÉ ŠTÝLY
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,100,0,0.5);
+}
+
+h1 {
+    color: #000000;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.instructions {
+    color: #666;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-left: 4px solid #667eea;
+    border-radius: 5px;
+}
+
+/* ========================================
+   OTÁZKY
+======================================== */
+#questions {
+    margin-bottom: 30px;
+}
+
+.question {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.question:hover {
+    transform: translateX(5px);
+    background: #e9ecef;
+}
+
+.question label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.question select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.question select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* ========================================
+   TLAČIDLO VYHODNOTIŤ
+======================================== */
+.evaluate-btn {
+    width: 100%;
+    padding: 15px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.evaluate-btn:hover {
+    background: #218838;
+}
+
+/* ========================================
+   MODAL (POPUP)
+======================================== */
+.modal {
+    display: none; /* Skrytý defaultne */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 40px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+
+/* ========================================
+   VÝSLEDKY V MODALE
+======================================== */
+#resultsContainer h2 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.results-list {
+    margin-bottom: 30px;
+}
+
+.result-item {
+    background: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #6c757d;
+}
+
+.result-item.primary {
+    background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+    border-left: 4px solid #667eea;
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.position {
+    background: #667eea;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.result-score {
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+
+.score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.max-score {
+    color: #666;
+}
+
+.percentage {
+    color: #999;
+    font-size: 14px;
+}
+
+.result-bar {
+    background: #e9ecef;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    height: 100%;
+    width: 0; /* Začne na 0, animuje sa na správnu šírku */
+    transition: width 1s ease-out;
+}
+
+.primary-result {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.primary-result h3 {
+    font-size: 32px;
+    margin: 15px 0;
+}
+
+.description {
+    opacity: 0.9;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   RESPONZÍVNY DIZAJN
+======================================== */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+}

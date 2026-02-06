@@ -78,6 +78,8 @@ function generateQuestions(){
     })
 }
 
+let unanswered = 0;
+
 function evaluateAnswers(){
     const scores = {
         A: 0,
@@ -87,23 +89,38 @@ function evaluateAnswers(){
         E: 0
     }
 
+
     QUESTIONS.forEach((question, index) => {
         const select = document.getElementById(`q${index + 1}`);
         const value = parseInt(select.value)
 
-        if (!isNaN(value)) {
-            scores[select.cat] += value;
+        //console.log(`Otazka na indexe ${index} ma value: ${value} a kategoriu ${select.dataset.cat}`);
+        if (!isNaN(value) && value > 0) {
+            scores[select.dataset.cat] += value;
+        }else{
+            unanswered++;
         }
+
+
     })
 
-    displayQuestion(scores);
+    if (unanswered > 0){
+        alert(`Prosím, vyplňte všetky odpovede, ostávajú: ${unanswered}`);
+        unanswered = 0;
+        return null;
+    }
+
+    return scores;
 }
 
 
 
-function displayQuestion(scores) {
-    const resultBox = document.getElementById("results");
+function createResultsHTML(scores) {
     const sortedScores = Object.entries(scores).sort((a,b) => b[1] - a[1])
+
+
+    //kontrola sorted
+    console.log(sortedScores);
 
     const categoryNames = {
         A: "Slová uznania",
@@ -119,10 +136,10 @@ function displayQuestion(scores) {
     });
 
     html += `<p style="margin-top: 20px; font-weight: bold;">
-        Tvoj primárny jazyk uznania je: ${categoryNames[sorted[0][0]]}
+        Tvoj primárny jazyk uznania je: ${categoryNames[sortedScores[0][0]]}
     </p>`;
 
-    resultBox.innerHTML = html;
+    return html;
 }
 
 function setupQuestionListener(){
