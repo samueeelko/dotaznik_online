@@ -26,7 +26,7 @@ const QUESTIONS = [
 
     { cat: "E", text: "Podanie ruky, potľapkanie po pleci či priateľské gesto vo mne vyvoláva pocit podpory." },
     { cat: "E", text: "Keď niekto prejaví uznanie aj prostredníctvom fyzického kontaktu, pôsobí to na mňa povzbudivo." },
-    { cat: "E", text: "Objatie (v vhodnej situácii a so súhlasom) vnímam ako silný prejav blízkosti a rešpektu." },
+    { cat: "E", text: "Objatie (vo vhodnej situácii a so súhlasom) vnímam ako silný prejav blízkosti a rešpektu." },
     { cat: "E", text: "Fyzické gesto spolupatričnosti mi dodáva energiu viac než formálne slová." },
     { cat: "E", text: "Ľudský dotyk pre mňa predstavuje autentické a úprimné ocenenie." }
 ];
@@ -114,13 +114,36 @@ function evaluateAnswers(){
 }
 
 
+//
+// function createResultsHTML(scores) {
+//     const sortedScores = Object.entries(scores).sort((a,b) => b[1] - a[1])
+//
+//
+//     //kontrola sorted
+//     console.log(sortedScores);
+//
+//     const categoryNames = {
+//         A: "Slová uznania",
+//         B: "Kvalitný čas",
+//         C: "Činy služby",
+//         D: "Dary",
+//         E: "Fyzický dotyk"
+//     };
+//
+//     let html = "<h2>Tvoje výsledky:</h2>";
+//     sortedScores.forEach(([cat, score]) => {
+//         html += `<p><strong>${categoryNames[cat]}:</strong> ${score} bodov</p>`;
+//     });
+//
+//     html += `<p style="margin-top: 20px; font-weight: bold;">
+//         Tvoj primárny jazyk uznania je: ${categoryNames[sortedScores[0][0]]}
+//     </p>`;
+//
+//     return html;
+// }
 
 function createResultsHTML(scores) {
-    const sortedScores = Object.entries(scores).sort((a,b) => b[1] - a[1])
-
-
-    //kontrola sorted
-    console.log(sortedScores);
+    const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
 
     const categoryNames = {
         A: "Slová uznania",
@@ -131,13 +154,24 @@ function createResultsHTML(scores) {
     };
 
     let html = "<h2>Tvoje výsledky:</h2>";
+
     sortedScores.forEach(([cat, score]) => {
         html += `<p><strong>${categoryNames[cat]}:</strong> ${score} bodov</p>`;
     });
 
-    html += `<p style="margin-top: 20px; font-weight: bold;">
-        Tvoj primárny jazyk uznania je: ${categoryNames[sortedScores[0][0]]}
-    </p>`;
+    // 🔥 nájdi max skóre a všetky kategórie, ktoré ho majú
+    const maxScore = sortedScores[0][1];
+    const topCats = sortedScores
+        .filter(([_, score]) => score === maxScore)
+        .map(([cat]) => categoryNames[cat]);
+
+    // text pre "primarny"
+    const primaryText =
+        topCats.length === 1
+            ? `Tvoj primárny jazyk uznania je: ${topCats[0]}`
+            : `Tvoje primárne jazyky uznania sú: ${topCats.join(", ")}`;
+
+    html += `<p style="margin-top: 20px; font-weight: bold;">${primaryText}</p>`;
 
     return html;
 }
